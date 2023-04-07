@@ -2,6 +2,8 @@
 
 #include "ListenerImpl.hpp"
 #include "SoundImpl.hpp"
+#include "WaveformImpl.hpp"
+
 #include "miniaudio.h"
 
 #include <iostream>
@@ -19,6 +21,13 @@ struct MakeSound : Sound
 {
     MakeSound( std::shared_ptr<SoundImpl> impl )
     : Sound( std::move( impl ) )
+    {}
+};
+
+struct MakeWaveform : Waveform
+{
+    MakeWaveform( std::shared_ptr<WaveformImpl> impl )
+    : Waveform( std::move( impl ) )
     {}
 };
 
@@ -40,6 +49,8 @@ public:
     Sound loadSound( const std::filesystem::path& filePath );
 
     Sound loadMusic( const std::filesystem::path& filePath );
+
+    Waveform createWaveform( Waveform::Type type, float amplitude, float frequency );
 
 private:
     ma_engine engine {};
@@ -92,6 +103,12 @@ Sound DeviceImpl::loadMusic( const std::filesystem::path& filePath )
     return MakeSound( std::move( sound ) );
 }
 
+Waveform DeviceImpl::createWaveform( Waveform::Type type, float amplitude, float frequency )
+{
+    auto waveform = std::make_shared<WaveformImpl>( type, amplitude, frequency, &engine );
+    return MakeWaveform( std::move( waveform ) );
+}
+
 void Device::setMasterVolume( float volume )
 {
     DeviceImpl::get().setMasterVolume( volume );
@@ -110,4 +127,9 @@ Sound Device::loadSound( const std::filesystem::path& filePath )
 Sound Device::loadMusic( const std::filesystem::path& filePath )
 {
     return DeviceImpl::get().loadMusic( filePath );
+}
+
+Waveform Device::createWaveform( Waveform::Type type, float amplitude, float frequency )
+{
+    return DeviceImpl::get().createWaveform( type, amplitude, frequency );
 }

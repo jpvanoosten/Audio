@@ -14,30 +14,84 @@ public:
     /// </summary>
     enum class Type
     {
-        Sine,
-        Square,
-        Triangle,
-        Sawtooth
+        Sine,       ///< Sine wave function. See: https://en.wikipedia.org/wiki/Sine_wave
+        Square,     ///< Square wave function. See: https://en.wikipedia.org/wiki/Square_wave
+        Triangle,   ///< Triangle wave function. See: https://en.wikipedia.org/wiki/Triangle_wave
+        Sawtooth    ///< Sawtooth wave function. See: https://en.wikipedia.org/wiki/Sawtooth_wave
     };
 
+    /// <summary>
+    /// Construct a waveform.
+    /// </summary>
+    /// <param name="type">The function type for the waveform.</param>
+    /// <param name="amplitude">The amplitude of the waveform.</param>
+    /// <param name="frequency">The frequency (in Hz) of the waveform.</param>
     Waveform( Type type, float amplitude, float frequency );
 
+    /// <summary>
+    /// Construct a new waveform (replacing the current waveform if one was previously created for this object.
+    /// </summary>
+    /// <param name="type">The function type for the waveform.</param>
+    /// <param name="amplitude">The amplitude of the waveform.</param>
+    /// <param name="frequency">The frequency (in Hz) of the waveform.</param>
     void create( Type type, float amplitude, float frequency );
 
+    /// <summary>
+    /// Set the function type for the waveform.
+    /// </summary>
+    /// <param name="type">The type of the waveform.</param>
     void setType( Type type );
+
+    /// <summary>
+    /// Get the function type for this waveform.
+    /// </summary>
+    /// <returns>The waveform type.</returns>
     Type getType() const noexcept;
 
+    /// <summary>
+    /// Set the amplitude of the waveform.
+    /// </summary>
+    /// <param name="amplitude">The waveform amplitude.</param>
     void setAmplitude( float amplitude );
+
+    /// <summary>
+    /// Get the amplitude of this waveform.
+    /// </summary>
+    /// <returns>The amplitude of this waveform.</returns>
     float getAmplitude() const noexcept;
 
+    /// <summary>
+    /// Set the frequency (in Hz) of the waveform.
+    /// </summary>
+    /// <param name="frequency">The frequency (in Hz) of the waveform.</param>
     void setFrequency( float frequency );
+
+    /// <summary>
+    /// Get the frequency of the waveform.
+    /// </summary>
+    /// <returns>The frequency (in Hz) of this waveform.</returns>
     float getFrequency() const noexcept;
 
+    /// <summary>
+    /// Set the sample rate (samples/second) for the waveform.
+    /// </summary>
+    /// <param name="sampleRate">The waveform sample rate.</param>
     void setSampleRate( uint32_t sampleRate );
+
+    /// <summary>
+    /// Get the sample rate for the waveform.
+    /// </summary>
+    /// <returns>The sample rate (samples/second) of this waveform.</returns>
     uint32_t getSampleRate() const noexcept;
 
+    /// <summary>
+    /// Start playing the waveform.
+    /// </summary>
     void start();
 
+    /// <summary>
+    /// Stop playing the waveform.
+    /// </summary>
     void stop();
 
     Waveform();

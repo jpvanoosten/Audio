@@ -27,7 +27,7 @@ public:
         Exponential,  ///< Exponential attenuation. Equivalent to OpenAL's AL_EXPONENT_DISTANCE_CLAMPED.
     };
 
-    explicit Sound( const std::filesystem::path& filePath, Type type );
+    explicit Sound( const std::filesystem::path& filePath, Type type = Type::Sound );
 
     /// <summary>
     /// Load a sound effect from a file.

@@ -50,10 +50,16 @@ public:
     void play();
 
     /// <summary>
-    /// Stop the sound playing.
+    /// Stop the playing sound.
     /// Note: Non-looping sounds will stop automatically.
     /// </summary>
     void stop();
+
+    /// <summary>
+    /// Pause the playing sound.
+    /// Note: This is the same as Sound::stop().
+    /// </summary>
+    void pause();
 
     /// <summary>
     /// Get the duration of the sound in seconds.

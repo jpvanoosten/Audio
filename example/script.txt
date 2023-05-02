@@ -1,0 +1,9 @@
+Hello, and welcome to the Audio library. In a few seconds, you will hear a wavefrom audio sample that tests the human audiable range between 20 to 20,000 Hertz
+
+[ play waveform ]
+
+Waveforms can also be used to create sound effects for use in popular retro video games. Perhaps you will recognize this sound effect.
+
+[play mario sound]
+
+Thanks for listening.

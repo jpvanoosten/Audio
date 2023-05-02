@@ -70,6 +70,11 @@ void Sound::stop()
     impl->stop();
 }
 
+void Sound::pause()
+{
+    stop();
+}
+
 float Sound::getDurationInSeconds() const
 {
     return impl->getDurationInSeconds();

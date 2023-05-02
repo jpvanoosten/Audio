@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Config.hpp"
 #include "Listener.hpp"
 #include "Sound.hpp"
 #include "Waveform.hpp"
@@ -8,7 +9,7 @@
 
 namespace Audio
 {
-class Device
+class AUDIO_API Device
 {
 public:
     /// <summary>

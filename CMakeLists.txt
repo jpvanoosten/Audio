@@ -1,8 +1,14 @@
 cmake_minimum_required( VERSION 3.23.0 )
 
-project( Audio LANGUAGES C CXX )
-
 option( AUDIO_BUILD_EXAMPLES "Include the example projects." OFF )
+option( BUILD_SHARED_LIBS "Build shared libraries." OFF )
+
+# Make sure DLL and EXE targets go to the same directory.
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+project( Audio LANGUAGES C CXX )
 
 set( INC_FILES
     inc/Audio/Config.hpp
@@ -44,6 +50,14 @@ set_target_properties( Audio
 target_include_directories( Audio
     PUBLIC inc
 )
+
+if(BUILD_SHARED_LIBS)
+    target_compile_definitions( Audio
+        PRIVATE Audio_EXPORTS
+        INTERFACE Audio_IMPORTS
+    )
+endif(BUILD_SHARED_LIBS)
+
 
 if( AUDIO_BUILD_EXAMPLES )
 	add_subdirectory( example )

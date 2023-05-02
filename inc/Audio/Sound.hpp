@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Config.hpp"
 #include "Listener.hpp"
 #include "Vector.hpp"
 
@@ -10,7 +11,7 @@ namespace Audio
 {
 class SoundImpl;
 
-class Sound
+class AUDIO_API Sound
 {
 public:
     enum class Type

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Config.hpp"
 #include "Vector.hpp"
 
 #include <memory>
@@ -8,7 +9,7 @@ namespace Audio
 {
 class ListenerImpl;
 
-class Listener
+class AUDIO_API Listener
 {
 public:
     /// <summary>

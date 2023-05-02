@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Config.hpp"
+
 #include <memory>
 
 namespace Audio
 {
 class WaveformImpl;
 
-class Waveform
+class AUDIO_API Waveform
 {
 public:
     /// <summary>

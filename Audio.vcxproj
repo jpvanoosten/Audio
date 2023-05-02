@@ -76,6 +76,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\Audio\Config.hpp" />
     <ClInclude Include="inc\Audio\Device.hpp" />
     <ClInclude Include="inc\Audio\Listener.hpp" />
     <ClInclude Include="inc\Audio\Sound.hpp" />

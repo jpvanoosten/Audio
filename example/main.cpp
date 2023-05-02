@@ -85,7 +85,7 @@ void play()
             state = State::Wait;
             break;
         case State::Wait:
-            marioCoin.update( elapsedTime.count() );
+            marioCoin.update( static_cast<float>( elapsedTime.count() ) );
             if ( totalTime > 1.0 )
             {
                 totalTime = 0.0;

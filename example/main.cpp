@@ -4,7 +4,6 @@
 #include <Audio/Waveform.hpp>
 
 #include <chrono>
-#include <cstdio>
 #include <format>
 #include <future>
 #include <iostream>

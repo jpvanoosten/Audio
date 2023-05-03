@@ -5,12 +5,17 @@
 
 #include <chrono>
 #include <cstdio>
+#include <format>
+#include <future>
 #include <iostream>
+#include <numbers>
 #include <thread>
 
-static bool quit = false;
-
 using namespace std::chrono;
+using std::numbers::pi;
+
+constexpr double pi_over_2 = pi / 2.0;
+constexpr double two_pi    = 2.0 * pi;
 
 enum class State
 {
@@ -19,22 +24,39 @@ enum class State
     NarratorPart2,
     MarioCoin,
     Wait,
-    NarratorPart3
+    NarratorPart3,
+    Done
 };
 
-void play()
+int main( int argc, char* argv[] )
 {
-    State state = State::NarratorPart1;
+    // Parse command-line arguments.
+    if ( argc > 1 )
+    {
+        for ( int i = 0; i < argc; ++i )
+        {
+            if ( strcmp( argv[i], "-cwd" ) == 0 )
+            {
+                std::string workingDirectory = argv[++i];
+                std::filesystem::current_path( workingDirectory );
+            }
+        }
+    }
 
-    Audio::Sound    narrator { "narrator.flac", Audio::Sound::Type::Music };
-    Audio::Waveform waveform { Audio::Waveform::Type::Sine, 0.2f, 500.0f };
+    Audio::Sound    narrator { "narrator.flac", Audio::Sound::Type::Stream };
+    Audio::Waveform waveform { Audio::Waveform::Type::Sine, 0.2f };
     MarioCoin       marioCoin;
 
-    double totalTime = 0.0;
+    steady_clock::time_point t0        = steady_clock::now();
+    double                   totalTime = 0.0;
 
-    steady_clock::time_point t0 = steady_clock::now();
 
-    while ( !quit )
+    State state = State::NarratorPart1;
+
+    std::cout << "Hello, and welcome to the Audio library.\n";
+    std::cout << "In a few seconds, you will hear a waveform audio sample that tests the human audible range between 20 to 20,000 Hz" << std::endl;
+
+    while ( state != State::Done )
     {
         steady_clock::time_point t1 = steady_clock::now();
 
@@ -57,17 +79,19 @@ void play()
         case State::Waveform:
         {
             waveform.start();
-            const auto f = ( std::sin( totalTime ) + 1.0 ) / 2.0 * 1000.0 + 20.0;
-            std::cout << "Frequency: " << f << std::endl;
+            const auto f = ( std::sin( totalTime - pi_over_2 ) + 1.0 ) / 2.0 * 10000.0 + 20.0;
+            std::cout << std::format( "Frequency: {:5.0f} Hz\n", f );
 
             // Adjust the frequency of the waveform.
             waveform.setFrequency( static_cast<float>( f ) );
 
-            if ( totalTime > 5.0 )
+            if ( totalTime > two_pi )
             {
                 totalTime = 0.0;
                 waveform.stop();
                 state = State::NarratorPart2;
+
+                std::cout << "\nWaveforms can also be used to create sound effects for use in popular retro video games.\nPerhaps you will recognize this sound effect." << std::endl;
             }
         }
         break;
@@ -90,46 +114,20 @@ void play()
             {
                 totalTime = 0.0;
                 state     = State::NarratorPart3;
+
+                std::cout << "\nThanks for listening." << std::endl;
             }
             break;
         case State::NarratorPart3:
             narrator.play();
             if ( totalTime > 1.5 )
             {
-                quit = true;
+                narrator.stop();
+                state = State::Done;
             }
             break;
         }
-
-        std::this_thread::sleep_for( 0.016s );
     }
-
-    exit( 0 );
-}
-
-int main( int argc, char* argv[] )
-{
-    // Parse command-line arguments.
-    if ( argc > 1 )
-    {
-        for ( int i = 0; i < argc; ++i )
-        {
-            if ( strcmp( argv[i], "-cwd" ) == 0 )
-            {
-                std::string workingDirectory = argv[++i];
-                std::filesystem::current_path( workingDirectory );
-            }
-        }
-    }
-
-    std::thread t { play };
-
-    std::cout << "Press enter to quit..." << std::endl;
-    std::ignore = getchar();
-
-    quit = true;
-
-    t.join();
 
     return 0;
 }

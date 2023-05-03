@@ -16,8 +16,10 @@ class AUDIO_API Sound
 public:
     enum class Type
     {
-        Sound,  ///< A short sound effect.
-        Music,  ///< A longer sound like background music.
+        Sound,               ///< A short sound effect.
+        Music,               ///< A longer sound like background music.
+        Background = Music,  ///< An alias for Music.
+        Stream     = Music,  ///< An alias for Music.
     };
 
     enum class AttenuationModel
@@ -74,7 +76,7 @@ public:
     /// <typeparam name="Rep">The representation of the duration.</typeparam>
     /// <typeparam name="Period">The period of the duration.</typeparam>
     /// <param name="duration">The duration to seek to.</param>
-    template<typename Rep, typename Period=std::ratio<1>>
+    template<typename Rep, typename Period = std::ratio<1>>
     void seek( const std::chrono::duration<Rep, Period>& duration );
 
     /// <summary>

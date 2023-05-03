@@ -28,7 +28,7 @@ public:
     /// <param name="type">The function type for the waveform.</param>
     /// <param name="amplitude">The amplitude of the waveform.</param>
     /// <param name="frequency">The frequency (in Hz) of the waveform.</param>
-    Waveform( Type type, float amplitude, float frequency );
+    Waveform( Type type, float amplitude = 1.0f, float frequency = 0.0f );
 
     /// <summary>
     /// Construct a new waveform (replacing the current waveform if one was previously created for this object.
@@ -36,7 +36,7 @@ public:
     /// <param name="type">The function type for the waveform.</param>
     /// <param name="amplitude">The amplitude of the waveform.</param>
     /// <param name="frequency">The frequency (in Hz) of the waveform.</param>
-    void create( Type type, float amplitude, float frequency );
+    void create( Type type, float amplitude = 1.0f, float frequency = 0.0f );
 
     /// <summary>
     /// Set the function type for the waveform.

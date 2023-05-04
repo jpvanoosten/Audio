@@ -97,6 +97,11 @@ Waveform::operator bool() const noexcept
     return impl != nullptr;
 }
 
+std::shared_ptr<WaveformImpl> Waveform::get() const noexcept
+{
+    return impl;
+}
+
 Waveform::Waveform( std::shared_ptr<WaveformImpl> impl )
 : impl { std::move( impl ) }
 {}

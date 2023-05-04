@@ -11,6 +11,9 @@ namespace Audio
 {
 class SoundImpl;
 
+// Export DLL API to suppress warnings.
+AUDIO_EXTERN template class AUDIO_API std::shared_ptr<SoundImpl>;
+
 class AUDIO_API Sound
 {
 public:
@@ -380,6 +383,12 @@ public:
     /// </summary>
     /// <returns>`true` if this object contains a valid pointer to implementation. `false` otherwise.</returns>
     explicit operator bool() const noexcept;
+
+    /// <summary>
+    /// Get a pointer to the implementation.
+    /// </summary>
+    /// <returns>A pointer to the Sound implementation.</returns>
+    std::shared_ptr<SoundImpl> get() const noexcept;
 
 protected:
     explicit Sound( std::shared_ptr<SoundImpl> impl );

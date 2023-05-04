@@ -33,6 +33,11 @@ Sound::operator bool() const noexcept
     return impl != nullptr;
 }
 
+std::shared_ptr<SoundImpl> Sound::get() const noexcept
+{
+    return impl;
+}
+
 Sound::Sound( std::shared_ptr<SoundImpl> impl )
 : impl { std::move( impl ) }
 {}

@@ -13,6 +13,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project( Audio LANGUAGES C CXX )
 
+# Enable multi-processor builds in MSVC.
+if(MSVC)
+    add_compile_options(/MP)
+endif(MSVC)
+
 set( INC_FILES
     inc/Audio/Config.hpp
     inc/Audio/Device.hpp

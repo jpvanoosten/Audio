@@ -9,6 +9,9 @@ namespace Audio
 {
 class ListenerImpl;
 
+// Export DLL API to suppress warnings.
+AUDIO_EXTERN template class AUDIO_API std::shared_ptr<ListenerImpl>;
+
 class AUDIO_API Listener
 {
 public:

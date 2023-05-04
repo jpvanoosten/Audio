@@ -8,6 +8,9 @@ namespace Audio
 {
 class WaveformImpl;
 
+// Export DLL API to suppress warnings.
+AUDIO_EXTERN template class AUDIO_API std::shared_ptr<WaveformImpl>;
+
 class AUDIO_API Waveform
 {
 public:
@@ -16,10 +19,10 @@ public:
     /// </summary>
     enum class Type
     {
-        Sine,       ///< Sine wave function. See: https://en.wikipedia.org/wiki/Sine_wave
-        Square,     ///< Square wave function. See: https://en.wikipedia.org/wiki/Square_wave
-        Triangle,   ///< Triangle wave function. See: https://en.wikipedia.org/wiki/Triangle_wave
-        Sawtooth    ///< Sawtooth wave function. See: https://en.wikipedia.org/wiki/Sawtooth_wave
+        Sine,      ///< Sine wave function. See: https://en.wikipedia.org/wiki/Sine_wave
+        Square,    ///< Square wave function. See: https://en.wikipedia.org/wiki/Square_wave
+        Triangle,  ///< Triangle wave function. See: https://en.wikipedia.org/wiki/Triangle_wave
+        Sawtooth   ///< Sawtooth wave function. See: https://en.wikipedia.org/wiki/Sawtooth_wave
     };
 
     /// <summary>
@@ -128,6 +131,12 @@ public:
     /// </summary>
     /// <returns>`true` if this object contains a valid pointer to implementation. `false` otherwise.</returns>
     explicit operator bool() const noexcept;
+
+    /// <summary>
+    /// Get a pointer to the implementation.
+    /// </summary>
+    /// <returns>A pointer to the Waveform implementation.</returns>
+    std::shared_ptr<WaveformImpl> get() const noexcept;
 
 protected:
     explicit Waveform( std::shared_ptr<WaveformImpl> impl );

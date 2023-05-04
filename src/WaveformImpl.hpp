@@ -9,7 +9,7 @@ namespace Audio
 class WaveformImpl
 {
 public:
-    WaveformImpl( Waveform::Type type, float amplitude, float frequency, const ma_engine* pEngine );
+    WaveformImpl( Waveform::Type type, float amplitude, float frequency, ma_engine* pEngine );
     ~WaveformImpl();
 
     void           setType( Waveform::Type type );
@@ -34,7 +34,7 @@ private:
     float          frequency  = 0.0f;
     uint32_t       sampleRate = 0u;
 
-    ma_device   device {};
     ma_waveform waveform {};
+    ma_data_source_node node {};
 };
 }  // namespace Audio

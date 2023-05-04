@@ -53,36 +53,54 @@ static void waveform_callback( ma_device* pDevice, void* output, const void*, ma
     ma_waveform_read_pcm_frames( waveform, output, frameCount, nullptr );
 }
 
-WaveformImpl::WaveformImpl( Waveform::Type _type, float _amplitude, float _frequency, const ma_engine* pEngine )
+WaveformImpl::WaveformImpl( Waveform::Type _type, float _amplitude, float _frequency, ma_engine* pEngine )
 : type( _type )
 , amplitude( _amplitude )
 , frequency( _frequency )
 {
-    if ( !pEngine || !pEngine->pDevice || !pEngine->pDevice->pContext )
+    if ( !pEngine || !pEngine->pDevice )
         return;
 
-    // Create a device to play the waveform.
-    ma_device_config deviceConfig  = ma_device_config_init( ma_device_type_playback );
-    deviceConfig.playback.format   = ma_format_f32;
-    deviceConfig.playback.channels = pEngine->pDevice->playback.channels;
-    deviceConfig.sampleRate        = pEngine->pDevice->sampleRate;
-    deviceConfig.dataCallback      = &waveform_callback;
-    deviceConfig.pUserData         = &waveform;
+    ma_device*               pDevice        = pEngine->pDevice;
+    const ma_waveform_config waveformConfig = ma_waveform_config_init( pDevice->playback.format, pDevice->playback.channels, pDevice->sampleRate, ConvertWaveformType( type ), amplitude, frequency );  // NOLINT(clang-diagnostic-double-promotion)
+    ma_result                result         = ma_waveform_init( &waveformConfig, &waveform );
 
-    if ( ma_device_init( pEngine->pDevice->pContext, &deviceConfig, &device ) != MA_SUCCESS )
+    if ( result == MA_SUCCESS )
     {
-        std::cerr << "Failed to initialize audio device." << std::endl;
-        return;
-    }
+        // Get the node graph from the engine.
+        ma_node_graph* nodeGraph = ma_engine_get_node_graph( pEngine );
 
-    ma_waveform_config config = ma_waveform_config_init( device.playback.format, device.playback.channels, device.sampleRate, ConvertWaveformType( type ), amplitude, frequency );  // NOLINT(clang-diagnostic-double-promotion)
-    ma_waveform_init( &config, &waveform );
+        // Create a data source node for the waveform.
+        const ma_data_source_node_config dataSourceConfig = ma_data_source_node_config_init( &waveform );
+        result                                            = ma_data_source_node_init( nodeGraph, &dataSourceConfig, nullptr, &node );
+
+        if ( result == MA_SUCCESS )
+        {
+            // Attach the data source node to the endpoint of the engine's node graph.
+            ma_node* outputNode = ma_node_graph_get_endpoint( nodeGraph );
+            result              = ma_node_attach_output_bus( &node, 0, outputNode, 0 );
+
+            if ( result != MA_SUCCESS )
+            {
+                std::cerr << "Failed to attach waveform source node to endpoint node." << std::endl;
+            }
+        }
+        else
+        {
+            std::cerr << "Failed to create data source node for waveform." << std::endl;
+        }
+    }
+    else
+    {
+        std::cerr << "Failed to initialize waveform." << std::endl;
+    }
 }
 
 WaveformImpl::~WaveformImpl()
 {
+    ma_node_detach_output_bus( &node, 0 );
+    ma_node_uninit( &node, nullptr );
     ma_waveform_uninit( &waveform );
-    ma_device_uninit( &device );
 }
 
 void WaveformImpl::setType( Waveform::Type _type )
@@ -131,10 +149,10 @@ uint32_t WaveformImpl::getSampleRate() const noexcept
 
 void WaveformImpl::start()
 {
-    ma_device_start( &device );
+    ma_node_set_state( &node, ma_node_state_started );
 }
 
 void WaveformImpl::stop()
 {
-    ma_device_stop( &device );
+    ma_node_set_state( &node, ma_node_state_stopped );
 }

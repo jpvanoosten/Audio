@@ -1,6 +1,7 @@
 cmake_minimum_required( VERSION 3.23.0 )
 
 option( AUDIO_BUILD_EXAMPLES "Include the example projects." ON )
+option( BUILD_SHARED_LIBS "Build Audio library as a shared library (DLL)." OFF )
 
 # Make sure DLL and EXE targets go to the same directory.
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
@@ -42,7 +43,7 @@ set( ALL_FILES
     ${INC_FILES} 
 )
 
-add_library( Audio STATIC ${ALL_FILES} .clang-format )
+add_library( Audio ${ALL_FILES} .clang-format )
 
 set_target_properties( Audio
     PROPERTIES
@@ -59,7 +60,6 @@ if(BUILD_SHARED_LIBS)
         INTERFACE Audio_IMPORTS
     )
 endif(BUILD_SHARED_LIBS)
-
 
 if( AUDIO_BUILD_EXAMPLES )
 	add_subdirectory( example )

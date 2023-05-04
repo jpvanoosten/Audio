@@ -73,7 +73,13 @@ DeviceImpl::DeviceImpl()
 
 DeviceImpl::~DeviceImpl()
 {
+#if !defined( Audio_EXPORTS )
+    // There is a bug that causes destruction of the audio engine to hang when building
+    // as a DLL. This does not happen when building as a static library.
+    // As a workaround, don't call this function when building as a DLL
+    // until I can find a better solution.
     ma_engine_uninit( &engine );
+#endif
 }
 
 Listener DeviceImpl::getListener( uint32_t listenerIndex )

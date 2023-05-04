@@ -27,7 +27,7 @@ This project comes with both a Visual Studio 2022 solution and project file and 
 Open the `Audio.sln` file in the root directory of this repository. You should see two projects in the solution:
 
 1. Audio (Static library): This project generates the `Audio.lib` file that you must link to in your own project.
-2. example (Exectuable): This is an example showing how to work with the Audio library. You can inspect the project settings of this project to see how to integrate the `Audio.lib` file into your own projects.
+2. example (Executable): This is an example showing how to work with the Audio library. You can inspect the project settings of this project to see how to integrate the `Audio.lib` file into your own projects.
 
 Running the example project in Visual Studio should play a narration and show a few examples of working with `Waveform`s.
 
@@ -45,7 +45,7 @@ There is a preset (use the preset drop-down menu in the CMake GUI) for Visual St
 
 In the CMake GUI, use the **Configure**, **Generate**, and **Open Project** buttons (in that order) to generate and open the Visual Studio solution file.
 
-> **Note**: Do not distirubte the CMake generated project files! These files contain absolute paths and will only work for your file structure.
+> **Note**: Do not distribute the CMake generated project files! These files contain absolute paths and will only work for your file structure.
 
 ## Build
 
@@ -79,7 +79,7 @@ If you see `Failed to initialize sound from source: narrator.flac` printed to th
 
 To use the Audio library in your own projects, copy the `lib` and `inc` folders to a folder in your own project. For example, suppose you keep your 3rd party files in a folder called `extern` or `3rdParty`.
 
-Create a subfolder called `Audio` and copy the contents of the `lib` and `inc` folders to the `Audio` subfolder. You should have a folder struture that is sisimilar to what is shown in the screenshot below:
+Create a subfolder called `Audio` and copy the contents of the `lib` and `inc` folders to the `Audio` subfolder. You should have a folder structure that is similar to what is shown in the screenshot below:
 
 ![Folder Structure](docs/images/Folder%20Structure.png)
 
@@ -106,7 +106,7 @@ Or if you prefer a textual view:
 │   │   │   │   │   ├── Audio.pdb
 ```
 
-Alternatively, you can just copy the contents of the [src](src/) folder to where you keep your source files (`.c`, or `.cpp` files) for your game project, and the contents of the [inc](inc/) folder to where you keep your header files (`.h` or `.hpp` files), then add all of the `.c` and `.cpp` files directly to your game project. Doing this does not require to geneate the `Audio.lib` file and you can skip the next section.
+Alternatively, you can just copy the contents of the [src](src/) folder to where you keep your source files (`.c`, or `.cpp` files) for your game project, and the contents of the [inc](inc/) folder to where you keep your header files (`.h` or `.hpp` files), then add all of the `.c` and `.cpp` files directly to your game project. Doing this does not require to generate the `Audio.lib` file and you can skip the next section.
 
 ### C/C++ Settings
 
@@ -180,7 +180,7 @@ coin.stop()
 
 ## Playing Music
 
-Short, one-shot sound effects are loaded into memory and decoded on creation. To minimize the impact on loading larger files, it is recomended to stream in the files and decode the audio file "on the fly" while playing. The reduces the time to load the file as well as reduced the amount of memory required to store the audio file.
+Short, one-shot sound effects are loaded into memory and decoded on creation. To minimize the impact on loading larger files, it is recommended to stream in the files and decode the audio file "on the fly" while playing. The reduces the time to load the file as well as reduced the amount of memory required to store the audio file.
 
 ```cpp
 #include <Audio/Sound.hpp>
@@ -189,13 +189,13 @@ Short, one-shot sound effects are loaded into memory and decoded on creation. To
 Audio::Sound bgMusic { "Background_Music.mp3", Audio::Sound::Type::Stream };
 ```
 
-The only difference between loading background music and one-shot sound effects is the additional `Audio::Sound::Type::Stream` parameter in the constructor. Playing, stoping, and restarting of streamed sounds is the same as one-shot sound effects.
+The only difference between loading background music and one-shot sound effects is the additional `Audio::Sound::Type::Stream` parameter in the constructor. Playing, stopping, and restarting of streamed sounds is the same as one-shot sound effects.
 
 ## Playing Waveforms
 
 An `Audio::Waveform` class can be used to play waveform audio. Many early video games simulated sound effects using waveforms or [MIDI](https://en.wikipedia.org/wiki/MIDI) audio because it was much easier to store and synthesize the audio than use WAV files.
 
-The `Audio::Waveform` class has two properties that can be modified at runtime to acheive the desired sound effect:
+The `Audio::Waveform` class has two properties that can be modified at runtime to achieve the desired sound effect:
 
 * **Frequency**: The "speed" of the waveform determines the apparent pitch of the sound. This value is measured in Hz.
 * **Amplitude**: The "strength" of the sound and determines how loud it sounds. This value is a floating-point value that is measured in the range from 0 (no sound) to 1 (100% volume). Amplitude is modulated by the master volume of the `Audio::Device`.
@@ -204,5 +204,4 @@ See [MarioCoin.cpp](example/MarioCoin.cpp) for an example of how to use a Wavefo
 
 ## Known Issues
 
-1. Static vs Dynamic linking
-2. Amplituded of `Waveform`s are not modulated by the master volume of the `Audio::Device`.
+1. The destruction of the audio engine will hang when built as a shared library (DLL). This does not happen when building as a static library. The current workaround is to skip the call to `ma_engine_uninit` when the Audio library is built as a DLL.

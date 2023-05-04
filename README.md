@@ -1,5 +1,7 @@
 <!-- markdownlint-disable MD033 -->
-# Audio
+# Audio Library
+
+[![Alt text](docs/images/Audio-Library.png)](https://youtu.be/sXPN-QH1kwg)
 
 A super minimalistic C++ audio library built on [miniaudio](https://miniaud.io/index.html).
 

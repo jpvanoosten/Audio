@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.23.0 )
+cmake_minimum_required( VERSION 3.22.1 )
 
 option( AUDIO_BUILD_EXAMPLES "Include the example projects." ON )
 option( BUILD_SHARED_LIBS "Build Audio library as a shared library (DLL)." OFF )

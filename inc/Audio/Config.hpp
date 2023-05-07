@@ -3,7 +3,7 @@
 #if defined( _WIN32 ) || defined( __CYGWIN__ )
     #define AUDIO_IMPORT __declspec( dllimport )
     #define AUDIO_EXPORT __declspec( dllexport )
-#elseif defined(__GNUC__) && __GNUC__ >= 4
+#elif defined(__GNUC__) && __GNUC__ >= 4
     #define AUDIO_IMPORT __attribute__ ((visibility ("default")))
     #define AUDIO_EXPORT __attribute__ ((visibility ("default")))
 #else

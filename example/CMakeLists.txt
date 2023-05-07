@@ -1,19 +1,9 @@
 cmake_minimum_required( VERSION 3.22.1 )
 
-include(FetchContent)
-
-FetchContent_Declare (
-	fmt
-	GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-	GIT_TAG 9.1.0
-)
-message( STATUS "Fetching fmt..." )
-FetchContent_MakeAvailable(fmt)
-
 add_executable( example main.cpp MarioCoin.hpp MarioCoin.cpp )
 
 target_link_libraries( example
-	PRIVATE Audio fmt::fmt
+    PRIVATE Audio
 )
 
 set_target_properties( example

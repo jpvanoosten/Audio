@@ -9,9 +9,6 @@ namespace Audio
 {
 class ListenerImpl;
 
-// Export DLL API to suppress warnings.
-AUDIO_EXTERN template class AUDIO_API std::shared_ptr<ListenerImpl>;
-
 class AUDIO_API Listener
 {
 public:
@@ -75,6 +72,7 @@ public:
     void getCone( float& innerConeAngle, float& outerConeAngle, float& outerGain ) const;
 
     Listener();
+    ~Listener();
     Listener( const Listener& );
     Listener( Listener&& ) noexcept;
     Listener& operator=( const Listener& );
@@ -114,3 +112,9 @@ private:
     std::shared_ptr<ListenerImpl> impl;
 };
 }  // namespace Audio
+
+namespace std
+{
+// Export DLL API to suppress warnings.
+AUDIO_EXTERN template class AUDIO_API shared_ptr<Audio::ListenerImpl>;
+}  // namespace std

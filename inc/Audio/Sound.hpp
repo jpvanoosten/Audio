@@ -6,13 +6,11 @@
 
 #include <filesystem>
 #include <memory>
+#include <chrono>
 
 namespace Audio
 {
 class SoundImpl;
-
-// Export DLL API to suppress warnings.
-AUDIO_EXTERN template class AUDIO_API std::shared_ptr<SoundImpl>;
 
 class AUDIO_API Sound
 {
@@ -422,3 +420,9 @@ void Sound::setStopTime( const std::chrono::duration<Rep, Period>& duration )
 }
 
 }  // namespace Audio
+
+namespace std
+{
+// Export DLL API to suppress warnings.
+AUDIO_EXTERN template class AUDIO_API shared_ptr<Audio::SoundImpl>;
+}  // namespace std

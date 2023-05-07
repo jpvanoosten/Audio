@@ -10,6 +10,7 @@ Listener::Listener( std::shared_ptr<ListenerImpl> impl )
 Listener::Listener()                                 = default;
 Listener::Listener( const Listener& )                = default;
 Listener::Listener( Listener&& ) noexcept            = default;
+Listener::~Listener()                                = default;
 Listener& Listener::operator=( const Listener& )     = default;
 Listener& Listener::operator=( Listener&& ) noexcept = default;
 Listener& Listener::operator=( nullptr_t ) noexcept

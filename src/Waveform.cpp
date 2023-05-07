@@ -66,6 +66,7 @@ void Waveform::stop()
 }
 
 Waveform::Waveform()                                 = default;
+Waveform::~Waveform()                                = default;
 Waveform::Waveform( const Waveform& )                = default;
 Waveform::Waveform( Waveform&& ) noexcept            = default;
 Waveform& Waveform::operator=( const Waveform& )     = default;

@@ -4,11 +4,12 @@
 #include <Audio/Waveform.hpp>
 
 #include <chrono>
-#include <format>
+#include <fmt/core.h>
 #include <future>
 #include <iostream>
 #include <numbers>
 #include <thread>
+#include <cmath>
 
 using namespace std::chrono;
 using std::numbers::pi;
@@ -79,7 +80,7 @@ int main( int argc, char* argv[] )
         {
             waveform.start();
             const auto f = ( std::sin( totalTime - pi_over_2 ) + 1.0 ) / 2.0 * 10000.0 + 20.0;
-            std::cout << std::format( "Frequency: {:5.0f} Hz\n", f );
+            std::cout << fmt::format( "Frequency: {:5.0f} Hz\n", f );
 
             // Adjust the frequency of the waveform.
             waveform.setFrequency( static_cast<float>( f ) );

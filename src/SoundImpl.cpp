@@ -10,7 +10,7 @@ SoundImpl::SoundImpl( const std::filesystem::path& filePath, ma_engine* pEngine,
 , group { pGroup }
 {
 
-    if ( ma_sound_init_from_file_w( engine, filePath.c_str(), flags, group, nullptr, &sound ) != MA_SUCCESS )
+    if ( ma_sound_init_from_file_w( engine, filePath.wstring().c_str(), flags, group, nullptr, &sound ) != MA_SUCCESS )
     {
         std::cerr << "Failed to initialize sound from source: " << filePath.string() << std::endl;
     }

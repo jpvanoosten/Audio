@@ -8,9 +8,6 @@ namespace Audio
 {
 class WaveformImpl;
 
-// Export DLL API to suppress warnings.
-AUDIO_EXTERN template class AUDIO_API std::shared_ptr<WaveformImpl>;
-
 class AUDIO_API Waveform
 {
 public:
@@ -100,6 +97,7 @@ public:
     void stop();
 
     Waveform();
+    ~Waveform();
     Waveform( const Waveform& );
     Waveform( Waveform&& ) noexcept;
     Waveform& operator=( const Waveform& );
@@ -146,3 +144,9 @@ private:
 };
 
 }  // namespace Audio
+
+namespace std
+{
+// Export DLL API to suppress warnings.
+AUDIO_EXTERN template class AUDIO_API std::shared_ptr<Audio::WaveformImpl>;
+}  // namespace std

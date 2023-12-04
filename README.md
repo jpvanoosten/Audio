@@ -59,7 +59,7 @@ Select **Build > Build Solution**  (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>B</kbd
 
 The `Audio.lib` file will go to the `lib` folder in the root of this repository depending on the current configuration.
 
-* **Debug**: `lib\Debug\Audio_d.lib`
+* **Debug**: `lib\Debug\Audio.lib`
 * **Release**: `lib\Release\Audio.lib`
 
 > **Note**: Do not distribute the generated library file with your project or commit it to GitHub. The library file should always be compiled for the toolchain version where it will be used.
@@ -142,7 +142,7 @@ Now select the **Input** subnode in the project's property pages dialog:
 
 ![Linker/Input Settings](docs/images/Linker%20Input%20Settings.png)
 
-In the **Additional Dependencies** settings, specify `Audio.lib` for the **Release** configuration, and `Audio_d.lib` for the **Debug** configuration.
+In the **Additional Dependencies** settings, specify `Audio.lib` for both the **Debug** and **Release** configurations.
 
 You should be able to compile your project with the Audio library. If you have any issues, please join our Discord server: [3dgep.com Discord Server](https://discord.gg/gsxxaxc)
 

@@ -53,8 +53,9 @@ static void waveform_callback( ma_device* pDevice, void* output, const void*, ma
     ma_waveform_read_pcm_frames( waveform, output, frameCount, nullptr );
 }
 
-WaveformImpl::WaveformImpl( Waveform::Type _type, float _amplitude, float _frequency, ma_engine* pEngine )
-: type( _type )
+WaveformImpl::WaveformImpl( std::shared_ptr<DeviceImpl> device, Waveform::Type _type, float _amplitude, float _frequency, ma_engine* pEngine )
+: device { std::move( device ) }
+, type( _type )
 , amplitude( _amplitude )
 , frequency( _frequency )
 {

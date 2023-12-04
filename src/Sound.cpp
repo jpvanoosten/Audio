@@ -38,6 +38,11 @@ std::shared_ptr<SoundImpl> Sound::get() const noexcept
     return impl;
 }
 
+void Sound::reset() noexcept
+{
+    impl.reset();
+}
+
 Sound::Sound( std::shared_ptr<SoundImpl> impl )
 : impl { std::move( impl ) }
 {}

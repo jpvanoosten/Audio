@@ -4,14 +4,18 @@
 #include <Audio/Vector.hpp>
 
 #include <cstdint>
+#include <memory>
 
 namespace Audio
 {
+class DeviceImpl;
+
 class ListenerImpl
 {
 public:
-    ListenerImpl( uint32_t index, ma_engine* pEngine )
-    : index { index }
+    ListenerImpl( std::shared_ptr<DeviceImpl> device, uint32_t index, ma_engine* pEngine )
+    : device { std::move( device ) }
+    , index { index }
     , engine { pEngine }
     {}
 
@@ -23,7 +27,7 @@ public:
     void   setDirection( const Vector& dir );
     Vector getDirection() const;
 
-    void      setUp( const Vector& up );
+    void   setUp( const Vector& up );
     Vector getUp() const;
 
     void setCone( float innerConeAngle, float outerConeAngle, float outerGain = 1.0f );
@@ -35,7 +39,8 @@ public:
     }
 
 private:
-    uint32_t   index;
-    ma_engine* engine = nullptr;
+    std::shared_ptr<DeviceImpl> device;
+    uint32_t                    index;
+    ma_engine*                  engine = nullptr;
 };
 }  // namespace Audio

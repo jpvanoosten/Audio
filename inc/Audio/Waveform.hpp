@@ -104,12 +104,6 @@ public:
     Waveform& operator=( Waveform&& ) noexcept;
 
     /// <summary>
-    /// Reset the underlying pointer object.
-    /// If this is the last reference, the object is destroyed.
-    /// </summary>
-    void reset();
-
-    /// <summary>
     /// Allow nullptr assignment.
     /// </summary>
     /// <remarks>
@@ -135,6 +129,12 @@ public:
     /// </summary>
     /// <returns>A pointer to the Waveform implementation.</returns>
     std::shared_ptr<WaveformImpl> get() const noexcept;
+
+    /// <summary>
+    /// Reset the underlying pointer object.
+    /// If this is the last reference, the object is destroyed.
+    /// </summary>
+    void reset();
 
 protected:
     explicit Waveform( std::shared_ptr<WaveformImpl> impl );

@@ -78,3 +78,8 @@ std::shared_ptr<ListenerImpl> Listener::get() const noexcept
 {
     return impl;
 }
+
+void Listener::reset() noexcept
+{
+    impl.reset();
+}

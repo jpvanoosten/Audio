@@ -5,8 +5,9 @@
 
 using namespace Audio;
 
-SoundImpl::SoundImpl( const std::filesystem::path& filePath, ma_engine* pEngine, ma_sound_group* pGroup, uint32_t flags )
-: engine { pEngine }
+SoundImpl::SoundImpl( std::shared_ptr<DeviceImpl> device, const std::filesystem::path& filePath, ma_engine* pEngine, ma_sound_group* pGroup, uint32_t flags )
+: device { std::move( device ) }
+, engine { pEngine }
 , group { pGroup }
 {
 

@@ -37,13 +37,14 @@ public:
     DeviceImpl();
     ~DeviceImpl();
 
-    static DeviceImpl& get()
+    static std::shared_ptr<DeviceImpl> get()
     {
-        static DeviceImpl inst;
+        static auto inst = std::make_shared<DeviceImpl>();
         return inst;
     }
 
     Listener getListener( uint32_t listenerIndex );
+
     void     setMasterVolume( float volume );
 
     Sound loadSound( const std::filesystem::path& filePath );
@@ -86,7 +87,7 @@ Listener DeviceImpl::getListener( uint32_t listenerIndex )
 {
     if ( listenerIndex < MA_ENGINE_MAX_LISTENERS )
     {
-        return MakeListener( std::make_shared<ListenerImpl>( listenerIndex, &engine ) );
+        return MakeListener( std::make_shared<ListenerImpl>( get(), listenerIndex, &engine ) );
     }
 
     return MakeListener( nullptr );
@@ -99,43 +100,43 @@ void DeviceImpl::setMasterVolume( float volume )
 
 Sound DeviceImpl::loadSound( const std::filesystem::path& filePath )
 {
-    auto sound = std::make_shared<SoundImpl>( filePath, &engine, nullptr, MA_SOUND_FLAG_DECODE );
+    auto sound = std::make_shared<SoundImpl>( get(), filePath, &engine, nullptr, MA_SOUND_FLAG_DECODE );
     return MakeSound( std::move( sound ) );
 }
 
 Sound DeviceImpl::loadMusic( const std::filesystem::path& filePath )
 {
-    auto sound = std::make_shared<SoundImpl>( filePath, &engine, nullptr, MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_NO_SPATIALIZATION );
+    auto sound = std::make_shared<SoundImpl>( get(), filePath, &engine, nullptr, MA_SOUND_FLAG_STREAM | MA_SOUND_FLAG_NO_SPATIALIZATION );
     return MakeSound( std::move( sound ) );
 }
 
 Waveform DeviceImpl::createWaveform( Waveform::Type type, float amplitude, float frequency )
 {
-    auto waveform = std::make_shared<WaveformImpl>( type, amplitude, frequency, &engine );
+    auto waveform = std::make_shared<WaveformImpl>( get(), type, amplitude, frequency, &engine );
     return MakeWaveform( std::move( waveform ) );
 }
 
 void Device::setMasterVolume( float volume )
 {
-    DeviceImpl::get().setMasterVolume( volume );
+    DeviceImpl::get()->setMasterVolume( volume );
 }
 
 Listener Device::getListener( uint32_t listenerIndex )
 {
-    return DeviceImpl::get().getListener( listenerIndex );
+    return DeviceImpl::get()->getListener( listenerIndex );
 }
 
 Sound Device::loadSound( const std::filesystem::path& filePath )
 {
-    return DeviceImpl::get().loadSound( filePath );
+    return DeviceImpl::get()->loadSound( filePath );
 }
 
 Sound Device::loadMusic( const std::filesystem::path& filePath )
 {
-    return DeviceImpl::get().loadMusic( filePath );
+    return DeviceImpl::get()->loadMusic( filePath );
 }
 
 Waveform Device::createWaveform( Waveform::Type type, float amplitude, float frequency )
 {
-    return DeviceImpl::get().createWaveform( type, amplitude, frequency );
+    return DeviceImpl::get()->createWaveform( type, amplitude, frequency );
 }

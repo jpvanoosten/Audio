@@ -388,6 +388,11 @@ public:
     /// <returns>A pointer to the Sound implementation.</returns>
     std::shared_ptr<SoundImpl> get() const noexcept;
 
+    /// <summary>
+    /// Release the underlying pointer to implementation.
+    /// </summary>
+    void reset() noexcept;
+
 protected:
     explicit Sound( std::shared_ptr<SoundImpl> impl );
 

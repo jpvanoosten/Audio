@@ -105,6 +105,11 @@ public:
     /// <returns>The pointer to the listener implementation.</returns>
     std::shared_ptr<ListenerImpl> get() const noexcept;
 
+    /// <summary>
+    /// Release the underlying pointer to implementation.
+    /// </summary>
+    void reset() noexcept;
+
 protected:
     Listener( std::shared_ptr<ListenerImpl> impl );
 

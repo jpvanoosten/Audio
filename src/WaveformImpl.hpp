@@ -6,10 +6,12 @@
 
 namespace Audio
 {
+class DeviceImpl;
+
 class WaveformImpl
 {
 public:
-    WaveformImpl( Waveform::Type type, float amplitude, float frequency, ma_engine* pEngine );
+    WaveformImpl( std::shared_ptr<DeviceImpl> device, Waveform::Type type, float amplitude, float frequency, ma_engine* pEngine );
     ~WaveformImpl();
 
     void           setType( Waveform::Type type );
@@ -29,6 +31,7 @@ public:
     void stop();
 
 private:
+    std::shared_ptr<DeviceImpl> device;
     Waveform::Type type;
     float          amplitude  = 0.0f;
     float          frequency  = 0.0f;

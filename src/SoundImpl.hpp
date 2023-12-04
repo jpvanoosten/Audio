@@ -10,10 +10,12 @@
 
 namespace Audio
 {
+class DeviceImpl;
+
 class SoundImpl
 {
 public:
-    SoundImpl( const std::filesystem::path& filePath, ma_engine* pEngine, ma_sound_group* pGroup = nullptr, uint32_t flags = 0 );
+    SoundImpl( std::shared_ptr<DeviceImpl> device, const std::filesystem::path& filePath, ma_engine* pEngine, ma_sound_group* pGroup = nullptr, uint32_t flags = 0 );
     ~SoundImpl();
 
     void play();
@@ -79,6 +81,7 @@ public:
     void setStopTime( uint64_t milliseconds );
 
 private:
+    std::shared_ptr<DeviceImpl> device;
     ma_engine*      engine = nullptr;
     ma_sound_group* group  = nullptr;
     ma_sound        sound {};

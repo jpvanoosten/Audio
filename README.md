@@ -35,6 +35,8 @@ Running the example project in Visual Studio should play a narration and show a 
 
 ### CMake
 
+#### Windows
+
 You should have (at least) CMake 3.23.0 installed (and added to your `PATH` environment variable in Windows). If you don't have CMake, please download it from [cmake.org](https://cmake.org/download/). Make sure you download the installer for your platform (don't download the source distributions).
 
 To generate the Visual Studio solution and project files, run the [GenerateProjectFiles.bat](GenerateProjectFiles.bat) batch file on Windows. This script uses [vswhere](https://github.com/microsoft/vswhere) to detect the latest version of Visual Studio you have installed and will generate the solution and project files for the version of Visual Studio you have installed.
@@ -46,6 +48,23 @@ Alternatively, you can open the Audio folder directly in the CMake GUI to genera
 There is a preset (use the preset drop-down menu in the CMake GUI) for Visual Studio 2019 and 2022 that you can use to generate the solution and project files.
 
 In the CMake GUI, use the **Configure**, **Generate**, and **Open Project** buttons (in that order) to generate and open the Visual Studio solution file.
+
+#### Linux Based Platforms
+
+CMake can usually detect your build toolchain on Linux based operating systems. To configure and build this project on Linux run the following commands from this project's root folder:
+
+```bash
+mkdir build
+cd build
+cmake ../
+cmake --build .
+```
+
+This will build the **Debug** build by default. To build the **Release** library, use the following command:
+
+```bash
+cmake --build . --config Release
+```
 
 > **Note**: Do not distribute the CMake generated project files! These files contain absolute paths and will only work for your file structure.
 
@@ -179,6 +198,42 @@ coin.stop()
 ```
 
 > **Note**: Stopping a sound effect does not automatically rewind the sound effect to the beginning of the sound. Use the `Sound::seek` method to seek to the beginning of the sound. You can also use `Sound::replay` to automatically rewind the sound to the beginning.
+
+## Spatial Audio
+
+Sound effects can make use of spatial sound effects. A `Sound` has a position in 3D space relative to a `Listener`. In order to hear the correct spatial sounds, both the `Sound` and `Listener` must be set the correct position.
+
+```cpp
+#include <Audio/Device.hpp>
+...
+// Create a Sound effect from a wav file:
+Audio::Sound coin { "coin.wav" };
+// Set the position of the sound in the world.
+coin.setPosition( {x, y, z} );
+...
+// Get a listener from the audio device.
+Audio::Listener listener = Audio::Device::getListener();
+...
+// Position the listener based on the position of the player.
+listener.setPosition( player.getPosition() );
+// Optionally, you can also set the direction of the listener.
+listener.setDirection( player.getDirection() );
+```
+
+Spatial audio allows you to specify the attenuation model for the sound effect. There are 4 attenuation models:
+
+1. **None**: No attenuation. This is equivalent to disabling spatialization for the sound effect.
+2. **Inverse**: Default attenuation that models natural sound attenuation.
+3. **Linear**: Linear attenuation falloff (less natural, but might be better for 2D sound effects).
+4. **Exponential**: Exponential attenuation.
+
+The code snippet shows how to disable attenuation for a sound effect:
+
+```cpp
+sound.setAttenuation( Audio::Sound::AttenuationModel::None );
+```
+
+By default, both sounds and the listener have a position of {0, 0, 0}. In this case, the sounds will not exhibit any spatial attenuation.
 
 ## Playing Music
 

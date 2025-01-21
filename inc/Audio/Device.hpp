@@ -20,7 +20,7 @@ public:
     static void setMasterVolume( float volume );
 
     /// <summary>
-    /// Get a audio listener at a particular index.
+    /// Get an audio listener at a particular index.
     /// </summary>
     /// <remarks>
     /// There is a maximum of 4 listeners at index 0 - 3. Requesting an out-of-range listener

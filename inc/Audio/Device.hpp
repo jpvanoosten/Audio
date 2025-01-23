@@ -47,6 +47,16 @@ public:
     static Sound loadMusic( const std::filesystem::path& filePath );
 
     /// <summary>
+    /// Play a sound effect in a "fire and forget" way.
+    /// This allows you to play a one-shot sound effect without having to create a sound instance.
+    /// This might be useful for playing the same sound effect multiple times and allowing the effect to
+    /// overlap each other.
+    /// Note: There is no way to stop or control the position of the playing sound.
+    /// </summary>
+    /// <param name="filePath">The path to the sound effect to play.</param>
+    static void playSound( const std::filesystem::path& filePath );
+
+    /// <summary>
     /// Create a waveform.
     /// </summary>
     /// <param name="type">The function to use for the waveform.</param>

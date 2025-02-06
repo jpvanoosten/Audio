@@ -69,6 +69,12 @@ public:
     /// </summary>
     /// <returns>The duration of the sound (in seconds).</returns>
     float getDurationInSeconds() const;
+    
+    /// <summary>
+    /// Get the current cursor position of the sound in seconds.
+    /// </summary>
+    /// <returns>The current cursor position of the sound (in seconds).</returns>
+    float getCursorInSeconds() const;
 
     /// <summary>
     /// Seek to a specific position in the sound.

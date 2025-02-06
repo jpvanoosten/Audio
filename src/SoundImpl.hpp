@@ -22,6 +22,8 @@ public:
     void stop();
 
     float getDurationInSeconds() const;
+    
+    float getCursorInSeconds() const;
 
     void seek( uint64_t milliseconds );
 

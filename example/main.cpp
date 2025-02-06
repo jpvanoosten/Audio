@@ -68,7 +68,7 @@ int main( int argc, char* argv[] )
         {
         case State::NarratorPart1:
             narrator.play();
-            if ( totalTime > 11.5 )
+            if ( narrator.getCursorInSeconds() > 11.5 )
             {
                 totalTime = 0.0;
                 narrator.pause();

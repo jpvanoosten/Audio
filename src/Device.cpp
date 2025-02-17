@@ -45,11 +45,13 @@ public:
 
     Listener getListener( uint32_t listenerIndex );
 
-    void     setMasterVolume( float volume );
+    void setMasterVolume( float volume );
 
     Sound loadSound( const std::filesystem::path& filePath );
 
     Sound loadMusic( const std::filesystem::path& filePath );
+
+    void playSound( const std::filesystem::path& path );
 
     Waveform createWaveform( Waveform::Type type, float amplitude, float frequency );
 
@@ -110,6 +112,14 @@ Sound DeviceImpl::loadMusic( const std::filesystem::path& filePath )
     return MakeSound( std::move( sound ) );
 }
 
+void DeviceImpl::playSound( const std::filesystem::path& path )
+{
+    if ( ma_engine_play_sound( &engine, path.string().c_str(), nullptr ) != MA_SUCCESS )
+    {
+        std::cerr << "Failed to play sound: " << path << std::endl;
+    }
+}
+
 Waveform DeviceImpl::createWaveform( Waveform::Type type, float amplitude, float frequency )
 {
     auto waveform = std::make_shared<WaveformImpl>( get(), type, amplitude, frequency, &engine );
@@ -134,6 +144,11 @@ Sound Device::loadSound( const std::filesystem::path& filePath )
 Sound Device::loadMusic( const std::filesystem::path& filePath )
 {
     return DeviceImpl::get()->loadMusic( filePath );
+}
+
+void Device::playSound( const std::filesystem::path& filePath )
+{
+    DeviceImpl::get()->playSound( filePath );
 }
 
 Waveform Device::createWaveform( Waveform::Type type, float amplitude, float frequency )

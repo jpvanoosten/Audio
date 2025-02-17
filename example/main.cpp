@@ -4,11 +4,11 @@
 #include <Audio/Waveform.hpp>
 
 #include <chrono>
+#include <cmath>
+#include <cstring>
 #include <future>
 #include <iostream>
 #include <numbers>
-#include <cmath>
-#include <cstring>
 
 using namespace std::chrono;
 using std::numbers::pi;
@@ -48,7 +48,6 @@ int main( int argc, char* argv[] )
 
     steady_clock::time_point t0        = steady_clock::now();
     double                   totalTime = 0.0;
-
 
     State state = State::NarratorPart1;
 

@@ -22,7 +22,7 @@ public:
     void stop();
 
     float getDurationInSeconds() const;
-    
+
     float getCursorInSeconds() const;
 
     void seek( uint64_t milliseconds );
@@ -44,13 +44,13 @@ public:
     void  setPitch( float pitch );
     float getPitch() const;
 
-    void      setPosition( const Vector& pos );
+    void   setPosition( const Vector& pos );
     Vector getPosition() const;
 
-    void      setDirection( const Vector& dir );
+    void   setDirection( const Vector& dir );
     Vector getDirection() const;
 
-    void      setVelocity( const Vector& vel );
+    void   setVelocity( const Vector& vel );
     Vector getVelocity() const;
 
     void setCone( float innerConeAngle, float outerConeAngle, float outerGain );
@@ -84,9 +84,9 @@ public:
 
 private:
     std::shared_ptr<DeviceImpl> device;
-    ma_engine*      engine = nullptr;
-    ma_sound_group* group  = nullptr;
-    ma_sound        sound {};
+    ma_engine*                  engine = nullptr;
+    ma_sound_group*             group  = nullptr;
+    ma_sound                    sound {};
 };
 
 }  // namespace Audio

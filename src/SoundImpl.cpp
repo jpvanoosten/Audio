@@ -43,9 +43,9 @@ float SoundImpl::getDurationInSeconds() const
 
 float SoundImpl::getCursorInSeconds() const
 {
-	float cursor = 0.0f;
-	ma_sound_get_cursor_in_seconds( &const_cast<SoundImpl*>( this )->sound, &cursor );
-	return cursor;
+    float cursor = 0.0f;
+    ma_sound_get_cursor_in_seconds( &const_cast<SoundImpl*>( this )->sound, &cursor );
+    return cursor;
 }
 
 void SoundImpl::seek( uint64_t milliseconds )

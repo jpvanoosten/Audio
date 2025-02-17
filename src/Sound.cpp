@@ -92,7 +92,7 @@ float Sound::getDurationInSeconds() const
 
 float Sound::getCursorInSeconds() const
 {
-	return impl->getCursorInSeconds();
+    return impl->getCursorInSeconds();
 }
 
 void Sound::seek( uint64_t milliseconds )
